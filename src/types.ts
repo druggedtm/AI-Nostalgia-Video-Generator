@@ -12,6 +12,7 @@ export interface NostalgiaScene {
   lightingChange: string;
   imagePrompt: string;
   videoPrompt: string;
+  perspective?: "first-person" | "third-person";
 }
 
 export interface GeneratedResponse {

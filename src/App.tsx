@@ -111,6 +111,7 @@ export default function App() {
       {
         number: 1,
         title: "The Super Nintendo Battle",
+        perspective: "first-person",
         targetDevice: "a classic yellow-buttoned Super Nintendo controller with grey cable spool",
         lightingSource: "the heavy scanlines and violet flickering glow of a 28-inch wood-paneled Curtis Mathes CRT television",
         backgroundItems: "stacked SNES cartridge boxes, a half-empty glass bottle of orange slice soda, retro teen tech flyers",
@@ -122,6 +123,7 @@ export default function App() {
       {
         number: 2,
         title: "Blockbuster VHS Rentals",
+        perspective: "first-person",
         targetDevice: "a thick black plastic Blockbuster rental box featuring the classic blue and yellow cardboard sleeve inside",
         lightingSource: "the glowing blue checkout lane halogen lamp mixing with the amber afternoon sun through glass panels",
         backgroundItems: "stacked VHS cassettes, a carton of milk-duds candy container, a checkout counter scan-beeper console",

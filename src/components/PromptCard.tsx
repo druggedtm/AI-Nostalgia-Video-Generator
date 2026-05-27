@@ -32,11 +32,21 @@ export default function PromptCard({ scene, decade, theme, onSave, isSaved }: Pr
   
   // Re-generate complete prompt formulas dynamically based on sandboxed values
   const getAssembledImagePrompt = () => {
-    return `A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with ${localDevice}. The room is dimly lit by ${localLighting}. The background features ${localItems}. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.`;
+    const isFirstPerson = (scene.perspective || "first-person") === "first-person";
+    if (isFirstPerson) {
+      return `A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with ${localDevice}. The room is dimly lit by ${localLighting}. The background features ${localItems}. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.`;
+    } else {
+      return `A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with ${localDevice}. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by ${localLighting}. The background features ${localItems}. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic.`;
+    }
   };
 
   const getAssembledVideoPrompt = () => {
-    return `The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—${localMovement}. The lighting ${localLightChange}. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment.`;
+    const isFirstPerson = (scene.perspective || "first-person") === "first-person";
+    if (isFirstPerson) {
+      return `The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—${localMovement}. The lighting ${localLightChange}. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment.`;
+    } else {
+      return `The camera has slow, natural handheld camera drift. The person is seen gently ${localMovement} with the ${localDevice}. The lighting ${localLightChange}. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time.`;
+    }
   };
 
   const handleCopyText = (text: string, setCopiedState: (v: boolean) => void) => {
@@ -111,13 +121,22 @@ ${getAssembledVideoPrompt()}
 
       {/* Card Header */}
       <div className="bg-[#121212] p-5 border-b border-white/10 flex flex-wrap justify-between items-center gap-4 pl-8">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="text-amber-500 font-mono text-xs tracking-tighter">
             SEQ_00{scene.number}
           </span>
           <h3 className="text-xl sm:text-2xl font-serif italic text-white tracking-normal leading-tight">
             {scene.title}
           </h3>
+          {scene.perspective === "third-person" ? (
+            <span className="inline-flex items-center gap-1 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(139,92,246,0.05)]">
+              <Smartphone className="w-2.5 h-2.5 rotate-90" /> Cinematic (Third-Person)
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(245,158,11,0.05)]">
+              <Tv className="w-2.5 h-2.5" /> POV (First-Person)
+            </span>
+          )}
         </div>
 
         {/* Action controls */}

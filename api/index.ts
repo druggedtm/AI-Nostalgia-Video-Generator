@@ -44,22 +44,27 @@ app.post("/api/generate", async (req, res) => {
     const audienceStr = audience ? `targeted specifically for ${audience}` : "for general Millennial/Gen X nostalgia";
     const countryStr = country ? `centered primarily in ${country}` : "Western/Premium countries (USA, UK, Canada, Australia, etc.)";
 
-    const systemInstruction = `You are the ultimate "AI Nostalgia Video Generator", a world-class prompt engineer specializing in viral, deeply emotional POV video concepts.
+    const systemInstruction = `You are the ultimate "AI Nostalgia Video Generator", a world-class prompt engineer specializing in viral, deeply emotional nostalgic video concepts.
 Your goal is to generate exactly 5 distinct, culturally accurate, and emotionally intense scene concepts that evoke memories and nostalgia.
 Focus on ${selection}, ${audienceStr}, and ${countryStr}.
 
-For EVERY scene, you must formulate high-fidelity "Image Prompt" and "Video Prompt" following these precise structural rules:
+For EVERY scene, you must choose either a "first-person" perspective (first-person POV looking through the character's own eyes) or a "third-person" perspective (cinematic/over-the-shoulder, looking from someone else's perspective at the character and the target device) based on what best captures the nostalgic environment and nostalgic objects. You must output the chosen perspective in the "perspective" field, and construct the "imagePrompt" and "videoPrompt" using the corresponding exact formula:
 
-- Image Prompt EXACT Formula:
-"A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with [targetDevice]. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel."
+- If perspective is "first-person":
+  * Image Prompt EXACT Formula:
+  "A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with [targetDevice]. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel."
+  * Video Prompt EXACT Formula:
+  "The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—[microMovement]. The lighting [lightingChange]. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment."
 
-- Video Prompt EXACT Formula:
-"The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—[microMovement]. The lighting [lightingChange]. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment."
+- If perspective is "third-person":
+  * Image Prompt EXACT Formula:
+  "A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with [targetDevice]. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic."
+  * Video Prompt EXACT Formula:
+  "The camera has slow, natural handheld camera drift. The person is seen gently [microMovement] with the [targetDevice]. The lighting [lightingChange]. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time."
 
-Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], and [lightingChange] are filled in with highly specific, historically accurate physical objects, snacks, tech controllers, gadgets, or actions pertinent to ${selection}. Do not use genric terms. For example, use "a transparent purple Gameboy Color running Pokemon Yellow", "a double-stick cassette case with handwritten mixtape tracks", or "the bright blue glowing screen of a Nokia 3310".
-Ensure there is absolutely NO face or head contour in the image prompt, remaining purely a first-person POV perspective.`;
+Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], and [lightingChange] are filled in with highly specific, historically accurate physical objects, snacks, tech controllers, gadgets, or actions pertinent to ${selection}. Do not use generic terms. For example, use "a transparent purple Gameboy Color running Pokemon Yellow", "a double-stick cassette case with handwritten mixtape tracks", or "the bright blue glowing screen of a Nokia 3310".`;
 
-    const promptText = `Generate 5 nostalgia pov scenes for ${selection}. Return the output as structured JSON.`;
+    const promptText = `Generate 5 nostalgia scenes for ${selection}. Return the output as structured JSON.`;
 
     const response = await ai.models.generateContent({
       model: "gemini-3.5-flash",
@@ -73,11 +78,12 @@ Ensure there is absolutely NO face or head contour in the image prompt, remainin
           properties: {
             scenes: {
               type: Type.ARRAY,
-              description: "List of 5 generated nostalgic POV scenes",
+              description: "List of 5 generated nostalgic scenes",
               items: {
                 type: Type.OBJECT,
                 properties: {
                   number: { type: Type.INTEGER, description: "Scene index from 1 to 5" },
+                  perspective: { type: Type.STRING, description: "The visual perspective of the scene, either 'first-person' or 'third-person'" },
                   title: { type: Type.STRING, description: "Evocative nostalgic title for the scene (e.g. 'Renting from Blockbuster')" },
                   targetDevice: { type: Type.STRING, description: "The highly specific nostalgic target object (e.g. a plastic Blockbuster VHS case)" },
                   lightingSource: { type: Type.STRING, description: "The dim lighting source in the room (e.g. the warm glow of an incandescent desk lamp)" },
@@ -89,6 +95,7 @@ Ensure there is absolutely NO face or head contour in the image prompt, remainin
                 },
                 required: [
                   "number",
+                  "perspective",
                   "title",
                   "targetDevice",
                   "lightingSource",
