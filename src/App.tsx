@@ -185,7 +185,7 @@ export default function App() {
       const newItem: SavedScene = {
         id: `save-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
         decade: selectedDecade || "",
-        theme: customTheme || "Custom POV Scene",
+        theme: customTheme || "Custom Nostalgic Scene",
         scene,
         savedAt: new Date().toISOString()
       };
@@ -239,7 +239,7 @@ export default function App() {
                   Nostalgia Engine <span className="text-amber-500 font-sans text-[10px] align-top tracking-normal ml-2 opacity-70">PROMPT GENERATOR v2.4</span>
                 </h1>
               </div>
-              <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-mono">Viral First-Person Nostalgia Creator Workspace</p>
+              <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-mono">Universal Vintage & Nostalgia Creator Workspace</p>
             </div>
           </div>
 
@@ -277,14 +277,14 @@ export default function App() {
           
           <div className="space-y-3 max-w-2xl text-center md:text-left">
             <div className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-mono uppercase font-semibold px-2.5 py-0.5 rounded">
-              <Sparkles className="w-3 h-3" /> Viral POV Director Blueprint
+              <Sparkles className="w-3 h-3" /> Universal Nostalgia Director Blueprint
             </div>
             <h2 className="text-2xl sm:text-4xl font-serif italic text-white tracking-normal leading-tight">
               The Saturday Morning Ritual
             </h2>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              POV: A crisp, statics-charged memory where world scales are small, warm, and highly focused.
-              These parameters generate high-fidelity, demographically tuned image and video instructions tailored for TikTok, Reels, and YouTube Shorts creators.
+              A crisp, statics-charged memory where world scales are small, warm, and highly focused.
+              These parameters generate high-fidelity, demographically tuned image and video instructions tailored for nostalgic content creators.
             </p>
           </div>
 

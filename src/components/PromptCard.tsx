@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NostalgiaScene, SavedScene } from "../types";
-import { Copy, Check, Tv, Sparkles, Sliders, RefreshCw, Bookmark, BookmarkCheck, FileText, Smartphone } from "lucide-react";
+import { Copy, Check, Tv, Sparkles, Sliders, RefreshCw, Bookmark, BookmarkCheck, FileText, Smartphone, Compass } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
 interface PromptCardProps {
@@ -32,20 +32,24 @@ export default function PromptCard({ scene, decade, theme, onSave, isSaved }: Pr
   
   // Re-generate complete prompt formulas dynamically based on sandboxed values
   const getAssembledImagePrompt = () => {
-    const isFirstPerson = (scene.perspective || "first-person") === "first-person";
-    if (isFirstPerson) {
+    const perspective = scene.perspective || "first-person";
+    if (perspective === "first-person") {
       return `A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with ${localDevice}. The room is dimly lit by ${localLighting}. The background features ${localItems}. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.`;
-    } else {
+    } else if (perspective === "third-person") {
       return `A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with ${localDevice}. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by ${localLighting}. The background features ${localItems}. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic.`;
+    } else {
+      return `A raw, photorealistic wide-angle or close-up still life shot capturing a nostalgic scene: ${localItems}, with ${localDevice} resting naturally as the focal point of the composition. The room is dimly lit by ${localLighting}, casting long, soft shadows and creating a cozy, atmospheric mood. Shot on 35mm film with slight grain, realistic textures, and a lived-in retro aesthetic.`;
     }
   };
 
   const getAssembledVideoPrompt = () => {
-    const isFirstPerson = (scene.perspective || "first-person") === "first-person";
-    if (isFirstPerson) {
+    const perspective = scene.perspective || "first-person";
+    if (perspective === "first-person") {
       return `The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—${localMovement}. The lighting ${localLightChange}. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment.`;
-    } else {
+    } else if (perspective === "third-person") {
       return `The camera has slow, natural handheld camera drift. The person is seen gently ${localMovement} with the ${localDevice}. The lighting ${localLightChange}. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time.`;
+    } else {
+      return `The camera has extremely slow, cinematic pan or handheld float, revealing the details of the scene. The lighting ${localLightChange}. The motion remains quiet and atmospheric, with subtle ambient movement like ${localMovement}—a slow, nostalgic cinematic memory frozen in time.`;
     }
   };
 
@@ -56,7 +60,7 @@ export default function PromptCard({ scene, decade, theme, onSave, isSaved }: Pr
   };
 
   const handleCopyScriptBundle = () => {
-    const fullScript = `🎬 POV NOSTALGIA VIDEO CONCEPT
+    const fullScript = `🎬 RETRO NOSTALGIA SCENE CONCEPT
 
 Title: Scene ${scene.number} - ${scene.title}
 Theme Focus: ${theme || decade}
@@ -71,9 +75,9 @@ ${getAssembledVideoPrompt()}
 "Low-fidelity warbling synthesizer tracks, muffled VHS dust crackling sounds, and high-frequency analog television whine."
 
 📱 VIRAL POINTERS & HASHTAGS:
-- Let the hands hold still, micro-gesturing slowly. Let light glint off the dials.
-- Caption Idea: " POV: You are 11 years old. It is a rainy Friday afternoon in 1996."
-- Tags: #POV #Nostalgia #Retro #VintagePOV #FirstPerson #Cinematic #AIVideo #TikTokReels #90sAesthetics #1980s`;
+- Focus on subtle ambient movements or slow camera drifts.
+- Caption Idea: "Remember when Friday afternoons felt like this? 🍂"
+- Tags: #Nostalgia #Retro #Vintage #Cinematic #AIVideo #TikTokReels #RetroAesthetics #MemoryLane`;
 
     handleCopyText(fullScript, setCopiedScript);
   };
@@ -128,13 +132,19 @@ ${getAssembledVideoPrompt()}
           <h3 className="text-xl sm:text-2xl font-serif italic text-white tracking-normal leading-tight">
             {scene.title}
           </h3>
-          {scene.perspective === "third-person" ? (
+          {scene.perspective === "third-person" && (
             <span className="inline-flex items-center gap-1 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(139,92,246,0.05)]">
               <Smartphone className="w-2.5 h-2.5 rotate-90" /> Cinematic (Third-Person)
             </span>
-          ) : (
+          )}
+          {(scene.perspective === "first-person" || !scene.perspective) && (
             <span className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(245,158,11,0.05)]">
               <Tv className="w-2.5 h-2.5" /> POV (First-Person)
+            </span>
+          )}
+          {scene.perspective === "environmental" && (
+            <span className="inline-flex items-center gap-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(6,182,212,0.05)]">
+              <Compass className="w-2.5 h-2.5" /> Environmental / Still-Life
             </span>
           )}
         </div>
@@ -383,12 +393,12 @@ ${getAssembledVideoPrompt()}
                   >
                     <img
                       src={previewImage}
-                      alt="Nostalgic POV visual scene render"
+                      alt="Nostalgic visual scene render"
                       className="w-full h-full object-cover"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute bottom-2 left-2 bg-black/80 backdrop-blur-md px-2 py-0.5 border border-white/10 text-[9px] font-mono text-amber-500">
-                      POV MODEL ACTIVE RENDER 1.0
+                      RETRO ENGINE ACTIVE RENDER 1.0
                     </div>
                   </motion.div>
                 ) : (
@@ -399,7 +409,7 @@ ${getAssembledVideoPrompt()}
                     className="p-5 flex flex-col items-center gap-1.5 text-center text-neutral-500"
                   >
                     <Tv className="w-8 h-8 stroke-[1.5] text-neutral-700" />
-                    <p className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-widest">CRT POV Screen Viewport</p>
+                    <p className="text-[10px] font-mono font-bold text-neutral-400 uppercase tracking-widest">Retro CRT Screen Viewport</p>
                     <p className="text-[11px] text-neutral-500 max-w-xs leading-normal">
                       Click below to generate an AI visual drafting frame of this scene composition.
                     </p>

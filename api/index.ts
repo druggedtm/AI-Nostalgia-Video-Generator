@@ -44,11 +44,16 @@ app.post("/api/generate", async (req, res) => {
     const audienceStr = audience ? `targeted specifically for ${audience}` : "for general Millennial/Gen X nostalgia";
     const countryStr = country ? `centered primarily in ${country}` : "Western/Premium countries (USA, UK, Canada, Australia, etc.)";
 
-    const systemInstruction = `You are the ultimate "AI Nostalgia Video Generator", a world-class prompt engineer specializing in viral, deeply emotional nostalgic video concepts.
+    const systemInstruction = `You are the ultimate "AI Nostalgia Scene Generator", a world-class prompt engineer specializing in viral, deeply emotional nostalgic visual concepts.
 Your goal is to generate exactly 5 distinct, culturally accurate, and emotionally intense scene concepts that evoke memories and nostalgia.
 Focus on ${selection}, ${audienceStr}, and ${countryStr}.
 
-For EVERY scene, you must choose either a "first-person" perspective (first-person POV looking through the character's own eyes) or a "third-person" perspective (cinematic/over-the-shoulder, looking from someone else's perspective at the character and the target device) based on what best captures the nostalgic environment and nostalgic objects. You must output the chosen perspective in the "perspective" field, and construct the "imagePrompt" and "videoPrompt" using the corresponding exact formula:
+For EVERY scene, you must choose one of these three perspectives based on what best captures the nostalgic theme:
+- "first-person": first-person POV looking through the character's own eyes, hands interacting with the object.
+- "third-person": cinematic over-the-shoulder or close-up showing a person interacting with the object, but face obscured.
+- "environmental": wide-angle or close-up still-life capturing a nostalgic space or arrangement of relics, without any person in the frame.
+
+You must output the chosen perspective in the "perspective" field, and construct the "imagePrompt" and "videoPrompt" using the corresponding exact formula:
 
 - If perspective is "first-person":
   * Image Prompt EXACT Formula:
@@ -61,6 +66,12 @@ For EVERY scene, you must choose either a "first-person" perspective (first-pers
   "A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with [targetDevice]. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic."
   * Video Prompt EXACT Formula:
   "The camera has slow, natural handheld camera drift. The person is seen gently [microMovement] with the [targetDevice]. The lighting [lightingChange]. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time."
+
+- If perspective is "environmental":
+  * Image Prompt EXACT Formula:
+  "A raw, photorealistic wide-angle or close-up still life shot capturing a nostalgic scene: [backgroundItems], with [targetDevice] resting naturally as the focal point of the composition. The room is dimly lit by [lightingSource], casting long, soft shadows and creating a cozy, atmospheric mood. Shot on 35mm film with slight grain, realistic textures, and a lived-in retro aesthetic."
+  * Video Prompt EXACT Formula:
+  "The camera has extremely slow, cinematic pan or handheld float, revealing the details of the scene. The lighting [lightingChange]. The motion remains quiet and atmospheric, with subtle ambient movement like [microMovement]—a slow, nostalgic cinematic memory frozen in time."
 
 Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], and [lightingChange] are filled in with highly specific, historically accurate physical objects, snacks, tech controllers, gadgets, or actions pertinent to ${selection}. Do not use generic terms. For example, use "a transparent purple Gameboy Color running Pokemon Yellow", "a double-stick cassette case with handwritten mixtape tracks", or "the bright blue glowing screen of a Nokia 3310".`;
 
@@ -83,12 +94,12 @@ Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], 
                 type: Type.OBJECT,
                 properties: {
                   number: { type: Type.INTEGER, description: "Scene index from 1 to 5" },
-                  perspective: { type: Type.STRING, description: "The visual perspective of the scene, either 'first-person' or 'third-person'" },
+                  perspective: { type: Type.STRING, description: "The visual perspective of the scene, either 'first-person', 'third-person', or 'environmental'" },
                   title: { type: Type.STRING, description: "Evocative nostalgic title for the scene (e.g. 'Renting from Blockbuster')" },
                   targetDevice: { type: Type.STRING, description: "The highly specific nostalgic target object (e.g. a plastic Blockbuster VHS case)" },
                   lightingSource: { type: Type.STRING, description: "The dim lighting source in the room (e.g. the warm glow of an incandescent desk lamp)" },
                   backgroundItems: { type: Type.STRING, description: "2 to 3 highly specific nostalgic items in background (e.g. stacked CD cases, old comic magazines, retro brand soda)" },
-                  microMovement: { type: Type.STRING, description: "Small, repetitive micro-gesture (e.g. slowly sliding the plastic VHS sleeve outward)" },
+                  microMovement: { type: Type.STRING, description: "Small, repetitive micro-gesture or ambient motion (e.g. slowly sliding the plastic VHS sleeve outward, or dust motes floating in light)" },
                   lightingChange: { type: Type.STRING, description: "Lighting shift of the environment (e.g. the warm lamp light glinting off the yellow case sleeve)" },
                   imagePrompt: { type: Type.STRING, description: "The final assembled Image Prompt string matching the formula exactly with all brackets replaced" },
                   videoPrompt: { type: Type.STRING, description: "The final assembled Video Prompt string matching the formula exactly with all brackets replaced" }
