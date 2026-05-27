@@ -5,14 +5,16 @@
 export interface NostalgiaScene {
   number: number;
   title: string;
-  targetDevice: string;
-  lightingSource: string;
-  backgroundItems: string;
-  microMovement: string;
-  lightingChange: string;
+  era: string;
+  focalSubject: string;
+  lightingStyle: string;
+  settingDetails: string;
+  ambientMotion: string;
+  colorGrading: string;
+  cameraLanguage: string;
+  textureReference: string;
   imagePrompt: string;
   videoPrompt: string;
-  perspective?: "first-person" | "third-person" | "environmental";
 }
 
 export interface GeneratedResponse {

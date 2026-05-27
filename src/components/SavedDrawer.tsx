@@ -115,7 +115,7 @@ export default function SavedDrawer({ savedScenes, onRemove, onClearAll }: Saved
                 {/* Micro-summarization */}
                 <div className="text-xs text-neutral-400 bg-[#0a0a0a] p-2 rounded border border-white/5 leading-normal">
                   <span className="text-neutral-500 font-mono text-[9px] uppercase block mb-0.5 tracking-wide">Holding focus:</span>
-                  {item.scene.targetDevice}
+                  {item.scene.focalSubject}
                 </div>
 
                 {/* Timeline info */}

@@ -111,26 +111,30 @@ export default function App() {
       {
         number: 1,
         title: "The Super Nintendo Battle",
-        perspective: "first-person",
-        targetDevice: "a classic yellow-buttoned Super Nintendo controller with grey cable spool",
-        lightingSource: "the heavy scanlines and violet flickering glow of a 28-inch wood-paneled Curtis Mathes CRT television",
-        backgroundItems: "stacked SNES cartridge boxes, a half-empty glass bottle of orange slice soda, retro teen tech flyers",
-        microMovement: "the person's thumbs furiously clicking the purple and violet action buttons during gameplay",
-        lightingChange: "the screen shifts to a neon pink castle level, throwing warm pink hues onto the palms and controller plastic",
-        imagePrompt: "A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with a classic yellow-buttoned Super Nintendo controller with grey cable spool. The room is dimly lit by the heavy scanlines and violet flickering glow of a 28-inch wood-paneled Curtis Mathes CRT television. The background features stacked SNES cartridge boxes, a half-empty glass bottle of orange slice soda, retro teen tech flyers. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.",
-        videoPrompt: "The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—the person's thumbs furiously clicking the purple and violet action buttons during gameplay. The lighting shifts to a neon pink castle level, throwing warm pink hues onto the palms and controller plastic. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment."
+        era: "1990s",
+        focalSubject: "a group of friends laughing while gathered around a wood-paneled Curtis Mathes CRT television screen, playing Super Nintendo",
+        lightingStyle: "the heavy scanlines and violet flickering cathode-ray glow of a CRT television screen",
+        settingDetails: "cluttered bedroom floor scattered with SNES cartridge boxes, a half-empty glass bottle of orange slice soda, and vintage posters",
+        ambientMotion: "dust motes slowly floating in the cathode ray beam, with fingers furiously clicking the action buttons",
+        colorGrading: "warm amber highlights, matte shadows, and faded film contrast",
+        cameraLanguage: "candid handheld camcorder view from a low angle",
+        textureReference: "Kodak Gold 200 film grain and soft lens diffusion",
+        imagePrompt: "A raw, photorealistic candid shot capturing an emotionally authentic scene from the 1990s: showing a group of friends laughing while gathered around a wood-paneled Curtis Mathes CRT television screen, playing Super Nintendo. The setting features cluttered bedroom floor scattered with SNES cartridge boxes, a half-empty glass bottle of orange slice soda, and vintage posters. The composition is shot with candid handheld camcorder view from a low angle on 35mm film with Kodak Gold 200 film grain and soft lens diffusion. The scene is illuminated by the heavy scanlines and violet flickering cathode-ray glow of a CRT television screen, casting warm amber highlights, matte shadows, and faded film contrast across the frame. Film softness, dreamlike memory realism, and low digital sharpness.",
+        videoPrompt: "The camera has candid handheld camcorder view from a low angle drift. The scene has subtle ambient movement: dust motes slowly floating in the cathode ray beam, with fingers furiously clicking the action buttons. The lighting warm amber highlights, matte shadows, and faded film contrast. The video preserves Kodak Gold 200 film grain and soft lens diffusion texture, feeling like a faded family memory."
       },
       {
         number: 2,
         title: "Blockbuster VHS Rentals",
-        perspective: "first-person",
-        targetDevice: "a thick black plastic Blockbuster rental box featuring the classic blue and yellow cardboard sleeve inside",
-        lightingSource: "the glowing blue checkout lane halogen lamp mixing with the amber afternoon sun through glass panels",
-        backgroundItems: "stacked VHS cassettes, a carton of milk-duds candy container, a checkout counter scan-beeper console",
-        microMovement: "a thumb gently tracing the blue barcode sticker on the spine edge of the black case",
-        lightingChange: "the checkout laser scanner momentarily flashes red across the hands and plastic case skin",
-        imagePrompt: "A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with a thick black plastic Blockbuster rental box featuring the classic blue and yellow cardboard sleeve inside. The room is dimly lit by the glowing blue checkout lane halogen lamp mixing with the amber afternoon sun through glass panels. The background features stacked VHS cassettes, a carton of milk-duds candy container, a checkout counter scan-beeper console. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.",
-        videoPrompt: "The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—a thumb gently tracing the blue barcode sticker on the spine edge of the black case. The lighting checkout laser scanner momentarily flashes red across the hands and plastic case skin. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment."
+        era: "1980s",
+        focalSubject: "a family browsing rental tapes inside a brightly lit Blockbuster video store",
+        lightingStyle: "the glowing blue checkout lane halogen lamps mixing with the warm golden hour afternoon sun through glass panels",
+        settingDetails: "towering racks of black plastic VHS cases, cardboard movie sleeves, and a checkout scan-beeper counter",
+        ambientMotion: "checkout scanner laser flashing red, with hands holding tape boxes",
+        colorGrading: "Spielberg-inspired wonder, dreamy warm highlights, and slightly sun-faded colors",
+        cameraLanguage: "observational over-the-shoulder perspective",
+        textureReference: "faded VHS tape artifacts and analog broadcast softness",
+        imagePrompt: "A raw, photorealistic candid shot capturing an emotionally authentic scene from the 1980s: showing a family browsing rental tapes inside a brightly lit Blockbuster video store. The setting features towering racks of black plastic VHS cases, cardboard movie sleeves, and a checkout scan-beeper counter. The composition is shot with observational over-the-shoulder perspective on 35mm film with faded VHS tape artifacts and analog broadcast softness. The scene is illuminated by the glowing blue checkout lane halogen lamps mixing with the warm golden hour afternoon sun through glass panels, casting Spielberg-inspired wonder, dreamy warm highlights, and slightly sun-faded colors across the frame. Film softness, dreamlike memory realism, and low digital sharpness.",
+        videoPrompt: "The camera has observational over-the-shoulder perspective drift. The scene has subtle ambient movement: checkout scanner laser flashing red, with hands holding tape boxes. The lighting Spielberg-inspired wonder, dreamy warm highlights, and slightly sun-faded colors. The video preserves faded VHS tape artifacts and analog broadcast softness texture, feeling like a faded family memory."
       }
     ]);
   }, []);
@@ -233,14 +237,14 @@ export default function App() {
             <div className="relative w-8 h-8 rounded bg-amber-500 flex items-center justify-center text-black font-black italic shadow-lg shadow-amber-500/10">
               N
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-serif text-lg sm:text-xl font-light tracking-widest text-white uppercase">
-                  Nostalgia Engine <span className="text-amber-500 font-sans text-[10px] align-top tracking-normal ml-2 opacity-70">PROMPT GENERATOR v2.4</span>
-                </h1>
-              </div>
-              <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-mono">Universal Vintage & Nostalgia Creator Workspace</p>
-            </div>
+             <div>
+               <div className="flex items-center gap-2">
+                 <h1 className="font-serif text-lg sm:text-xl font-light tracking-widest text-white uppercase">
+                   Memory-Engine <span className="text-amber-500 font-sans text-[10px] align-top tracking-normal ml-2 opacity-70">CINEMATIC GENERATOR v3.0</span>
+                 </h1>
+               </div>
+               <p className="text-[10px] text-neutral-500 uppercase tracking-widest font-mono">Universal Cinematic & Retro Memory Workspace</p>
+             </div>
           </div>
 
           <div className="flex items-center gap-6">
@@ -617,10 +621,10 @@ export default function App() {
       <footer className="mt-20 border-t border-white/10 bg-[#0f0f0f] py-10 px-6 sm:px-12 text-center text-[10px] font-mono text-neutral-500 space-y-3">
         <div className="flex items-center justify-center gap-2 text-neutral-400">
           <Tv className="w-3.5 h-3.5 text-amber-500" />
-          <span className="font-serif tracking-widest text-xs uppercase text-white font-light">Nostalgia Engine Suite</span>
+          <span className="font-serif tracking-widest text-xs uppercase text-white font-light">Cinematic Memory-Engine Suite</span>
         </div>
         <p className="font-light max-w-xl mx-auto">Designed with Gemini AI Server-Side assistance. Programmed on custom elegant dark structures using Playfair Display, Inter, and JetBrains Mono pairing.</p>
-        <p className="text-neutral-600 tracking-widest uppercase">STATION INTEGRATION 3000 • DEPLOYED • PROMPT BLUEPRINT v2.4</p>
+        <p className="text-neutral-600 tracking-widest uppercase">STATION INTEGRATION 3000 • DEPLOYED • MEMORY BLUEPRINT v3.0</p>
       </footer>
 
     </div>

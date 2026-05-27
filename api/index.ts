@@ -44,36 +44,36 @@ app.post("/api/generate", async (req, res) => {
     const audienceStr = audience ? `targeted specifically for ${audience}` : "for general Millennial/Gen X nostalgia";
     const countryStr = country ? `centered primarily in ${country}` : "Western/Premium countries (USA, UK, Canada, Australia, etc.)";
 
-    const systemInstruction = `You are the ultimate "AI Nostalgia Scene Generator", a world-class prompt engineer specializing in viral, deeply emotional nostalgic visual concepts.
-Your goal is to generate exactly 5 distinct, culturally accurate, and emotionally intense scene concepts that evoke memories and nostalgia.
+    const systemInstruction = `You are the ultimate "AI Nostalgia Scene Generator" (Cinematic Memory-Engine), a world-class prompt engineer specializing in creating emotionally authentic, nostalgic visual scenes from the 1970s, 1980s, 1990s, and early 2000s. Your goal is to recreate the emotional texture of remembered life rather than simply recreating objects or retro fashion.
+
 Focus on ${selection}, ${audienceStr}, and ${countryStr}.
 
-For EVERY scene, you must choose one of these three perspectives based on what best captures the nostalgic theme:
-- "first-person": first-person POV looking through the character's own eyes, hands interacting with the object.
-- "third-person": cinematic over-the-shoulder or close-up showing a person interacting with the object, but face obscured.
-- "environmental": wide-angle or close-up still-life capturing a nostalgic space or arrangement of relics, without any person in the frame.
+CORE VISUAL DNA (Aesthetic styling to apply to ALL prompts):
+- Warm amber highlights, honey sunlight, golden-hour warmth, lifted blacks, matte shadows, faded contrast, soft bloom, halation glow, film grain, analog softness, muted blues, desaturated greens, creamy skin tones, vintage lens diffusion, slightly overexposed highlights, dreamy Kodak warmth, emotional tungsten interiors, VHS softness, Super 8 texture, analog imperfections, slight chromatic aberration, subtle lens breathing, gentle vignettes, cinematic haze, soft atmospheric diffusion, low digital sharpness, tactile film texture, CRT-inspired glow, sun-faded colors, memory-like softness.
+- DO NOT make scenes hyper-clean, use modern TikTok aesthetics, over-sharpen footage, make lighting look LED-heavy, create sterile compositions, overuse neon cyberpunk colors, make subjects look AI-perfect, create excessively cinematic blockbuster framing, or over-modernize the emotional tone.
 
-You must output the chosen perspective in the "perspective" field, and construct the "imagePrompt" and "videoPrompt" using the corresponding exact formula:
+PREFERRED CAMERA LANGUAGE (Observational Cinematography):
+- Candid framing, over-the-shoulder perspectives, passenger-seat views, handheld camcorder feeling, documentary intimacy, imperfect framing, naturally cropped subjects, wide environmental storytelling, slow drifting camera motion, subtle handheld shake, accidental realism, authentic composition mistakes, soft focus transitions, shallow but imperfect depth of field, lived-in perspective, "someone was really there" energy.
+- DO NOT use rigid first-person POV formulas. The camera language must feel naturally observational, candid, and authentic.
 
-- If perspective is "first-person":
-  * Image Prompt EXACT Formula:
-  "A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with [targetDevice]. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel."
-  * Video Prompt EXACT Formula:
-  "The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—[microMovement]. The lighting [lightingChange]. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment."
+MOOD & ATMOSPHERE (Evoke these emotional categories):
+- Suburban childhood, rainy afternoons, mall culture, arcades, school corridors, family road trips, birthday parties, sleepovers, backyard barbecues, VHS rental stores, cassette tape culture, CRT gaming nights, old classrooms, Sunday mornings, summer camp, late-night television, diners, roller rinks, playgrounds, old toy stores, family reunions, first crush energy, teenage rebellion, analog friendships, pre-internet social life, awkward candid moments, parking lot conversations, skating culture, cable TV atmosphere, retro sports culture, garage bands, local fairs, old supermarkets, amusement parks, laundromats, fast food nostalgia, road-side motels, suburban melancholy, youthful optimism, quiet loneliness, cozy isolation, emotional memory fragments, "before everything became digital" atmosphere.
 
-- If perspective is "third-person":
-  * Image Prompt EXACT Formula:
-  "A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with [targetDevice]. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by [lightingSource]. The background features [backgroundItems]. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic."
-  * Video Prompt EXACT Formula:
-  "The camera has slow, natural handheld camera drift. The person is seen gently [microMovement] with the [targetDevice]. The lighting [lightingChange]. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time."
+ERA INTELLIGENCE (Adapt details naturally based on the scene's era):
+- 1970s: earthy colors, faded Kodachrome, grainier texture, wood panel interiors, analog domestic realism, warm tungsten homes, documentary realism, gritty softness, slower pacing.
+- 1980s: suburban Americana, VHS warmth, arcade glow, practical neon, Spielberg-inspired wonder, mall culture, analog optimism, CRT reflections, playful color warmth, nostalgic summer evenings.
+- 1990s: disposable camera aesthetic, cooler suburban tones mixed with warmth, shopping malls, skate culture, sitcom lighting, cassette/CD transition era, rainy melancholy, MTV energy softened through memory, low-fi authenticity.
+- 2000s: early digital camera softness, flash photography nostalgia, internet café atmosphere, low-resolution digital texture, frosted highlights, camcorder compression feel, teen movie emotional tone, suburban realism, pre-social-media innocence.
 
-- If perspective is "environmental":
-  * Image Prompt EXACT Formula:
-  "A raw, photorealistic wide-angle or close-up still life shot capturing a nostalgic scene: [backgroundItems], with [targetDevice] resting naturally as the focal point of the composition. The room is dimly lit by [lightingSource], casting long, soft shadows and creating a cozy, atmospheric mood. Shot on 35mm film with slight grain, realistic textures, and a lived-in retro aesthetic."
-  * Video Prompt EXACT Formula:
-  "The camera has extremely slow, cinematic pan or handheld float, revealing the details of the scene. The lighting [lightingChange]. The motion remains quiet and atmospheric, with subtle ambient movement like [microMovement]—a slow, nostalgic cinematic memory frozen in time."
+For EVERY scene, you must formulate high-fidelity "Image Prompt" and "Video Prompt" following these precise structural rules:
 
-Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], and [lightingChange] are filled in with highly specific, historically accurate physical objects, snacks, tech controllers, gadgets, or actions pertinent to ${selection}. Do not use generic terms. For example, use "a transparent purple Gameboy Color running Pokemon Yellow", "a double-stick cassette case with handwritten mixtape tracks", or "the bright blue glowing screen of a Nokia 3310".`;
+- Image Prompt EXACT Formula:
+"A raw, photorealistic candid shot capturing an emotionally authentic scene from the [era]: showing [focalSubject]. The setting features [settingDetails]. The composition is shot with [cameraLanguage] on 35mm film with [textureReference]. The scene is illuminated by [lightingStyle], casting [colorGrading] across the frame. Film softness, dreamlike memory realism, and low digital sharpness."
+
+- Video Prompt EXACT Formula:
+"The camera has [cameraLanguage] drift. The scene has subtle ambient movement: [ambientMotion]. The lighting [colorGrading]. The video preserves [textureReference] texture, feeling like a faded family memory."
+
+Make sure [era], [focalSubject], [settingDetails], [cameraLanguage], [textureReference], [lightingStyle], [colorGrading], and [ambientMotion] are filled in with highly specific details pertinent to ${selection} and the selected era. Fill them in naturally, resolving all brackets. Use the variables to reflect the emotional texture of remembered life.`;
 
     const promptText = `Generate 5 nostalgia scenes for ${selection}. Return the output as structured JSON.`;
 
@@ -94,25 +94,29 @@ Make sure [targetDevice], [lightingSource], [backgroundItems], [microMovement], 
                 type: Type.OBJECT,
                 properties: {
                   number: { type: Type.INTEGER, description: "Scene index from 1 to 5" },
-                  perspective: { type: Type.STRING, description: "The visual perspective of the scene, either 'first-person', 'third-person', or 'environmental'" },
-                  title: { type: Type.STRING, description: "Evocative nostalgic title for the scene (e.g. 'Renting from Blockbuster')" },
-                  targetDevice: { type: Type.STRING, description: "The highly specific nostalgic target object (e.g. a plastic Blockbuster VHS case)" },
-                  lightingSource: { type: Type.STRING, description: "The dim lighting source in the room (e.g. the warm glow of an incandescent desk lamp)" },
-                  backgroundItems: { type: Type.STRING, description: "2 to 3 highly specific nostalgic items in background (e.g. stacked CD cases, old comic magazines, retro brand soda)" },
-                  microMovement: { type: Type.STRING, description: "Small, repetitive micro-gesture or ambient motion (e.g. slowly sliding the plastic VHS sleeve outward, or dust motes floating in light)" },
-                  lightingChange: { type: Type.STRING, description: "Lighting shift of the environment (e.g. the warm lamp light glinting off the yellow case sleeve)" },
+                  era: { type: Type.STRING, description: "The specific era of the scene (e.g., '1970s', '1980s', '1990s', or '2000s')" },
+                  title: { type: Type.STRING, description: "Evocative nostalgic title for the scene (e.g. 'Late Night at the Diner')" },
+                  focalSubject: { type: Type.STRING, description: "The focal subject(s) and their natural human interactions or props (e.g. a group of kids sitting on a wood-paneled floor playing split-screen Mario Kart)" },
+                  lightingStyle: { type: Type.STRING, description: "The lighting philosophy (e.g. the warm sodium-vapor glow of streetlights outside, or a flickering CRT television screen)" },
+                  settingDetails: { type: Type.STRING, description: "Nostalgic props and cluttered lived-in setting details (e.g. stacked VHS cases, wood paneling, discarded retro soda cans)" },
+                  ambientMotion: { type: Type.STRING, description: "Subtle ambient motion details (e.g. dust motes floating in the window light, or static lines roll on the CRT)" },
+                  colorGrading: { type: Type.STRING, description: "Specific film color grading (e.g. warm amber highlights, desaturated greens, and matte shadows)" },
+                  cameraLanguage: { type: Type.STRING, description: "Candid camera composition (e.g. handheld camcorder feel, over-the-shoulder documentary perspective)" },
+                  textureReference: { type: Type.STRING, description: "Tactile media format (e.g. Kodak Gold 200 film grain, Polaroid fading, VHS artifacts)" },
                   imagePrompt: { type: Type.STRING, description: "The final assembled Image Prompt string matching the formula exactly with all brackets replaced" },
                   videoPrompt: { type: Type.STRING, description: "The final assembled Video Prompt string matching the formula exactly with all brackets replaced" }
                 },
                 required: [
                   "number",
-                  "perspective",
+                  "era",
                   "title",
-                  "targetDevice",
-                  "lightingSource",
-                  "backgroundItems",
-                  "microMovement",
-                  "lightingChange",
+                  "focalSubject",
+                  "lightingStyle",
+                  "settingDetails",
+                  "ambientMotion",
+                  "colorGrading",
+                  "cameraLanguage",
+                  "textureReference",
                   "imagePrompt",
                   "videoPrompt"
                 ]

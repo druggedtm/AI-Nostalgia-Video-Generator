@@ -24,33 +24,21 @@ export default function PromptCard({ scene, decade, theme, onSave, isSaved }: Pr
 
   // Creative Sandbox states: modifying variables locally
   const [isSandboxOpen, setIsSandboxOpen] = useState(false);
-  const [localDevice, setLocalDevice] = useState(scene.targetDevice);
-  const [localLighting, setLocalLighting] = useState(scene.lightingSource);
-  const [localItems, setLocalItems] = useState(scene.backgroundItems);
-  const [localMovement, setLocalMovement] = useState(scene.microMovement);
-  const [localLightChange, setLocalLightChange] = useState(scene.lightingChange);
+  const [localSubject, setLocalSubject] = useState(scene.focalSubject);
+  const [localLighting, setLocalLighting] = useState(scene.lightingStyle);
+  const [localSettings, setLocalSettings] = useState(scene.settingDetails);
+  const [localMotion, setLocalMotion] = useState(scene.ambientMotion);
+  const [localGrading, setLocalGrading] = useState(scene.colorGrading);
+  const [localCamera, setLocalCamera] = useState(scene.cameraLanguage);
+  const [localTexture, setLocalTexture] = useState(scene.textureReference);
   
   // Re-generate complete prompt formulas dynamically based on sandboxed values
   const getAssembledImagePrompt = () => {
-    const perspective = scene.perspective || "first-person";
-    if (perspective === "first-person") {
-      return `A raw, photorealistic first-person POV shot looking through the character's own eyes—the scene is framed exactly as if the viewer is the character. Both forearms and wrists enter the frame from the bottom-left and bottom-right corners, gripping or interacting with ${localDevice}. The room is dimly lit by ${localLighting}. The background features ${localItems}. No part of the character's face, hair, shoulders, or side-profile is visible. The camera is locked inside the head at eye level, looking slightly downward at the hands. Shot on 35mm film with slight grain and an amateur, lived-in feel.`;
-    } else if (perspective === "third-person") {
-      return `A raw, photorealistic cinematic shot from a third-person perspective (such as over-the-shoulder or medium close-up) showing a person interacting with ${localDevice}. The person's shoulder, side of their head, or back of their head is partially in the frame, but their full face is obscured or in soft focus to keep it relatable. The room is dimly lit by ${localLighting}. The background features ${localItems}. Shot on 35mm film with slight grain, realistic textures, and a cozy, lived-in retro aesthetic.`;
-    } else {
-      return `A raw, photorealistic wide-angle or close-up still life shot capturing a nostalgic scene: ${localItems}, with ${localDevice} resting naturally as the focal point of the composition. The room is dimly lit by ${localLighting}, casting long, soft shadows and creating a cozy, atmospheric mood. Shot on 35mm film with slight grain, realistic textures, and a lived-in retro aesthetic.`;
-    }
+    return `A raw, photorealistic candid shot capturing an emotionally authentic scene from the ${scene.era || '1990s'}: showing ${localSubject}. The setting features ${localSettings}. The composition is shot with ${localCamera} on 35mm film with ${localTexture}. The scene is illuminated by ${localLighting}, casting ${localGrading} across the frame. Film softness, dreamlike memory realism, and low digital sharpness.`;
   };
 
   const getAssembledVideoPrompt = () => {
-    const perspective = scene.perspective || "first-person";
-    if (perspective === "first-person") {
-      return `The camera gently sways with subtle breathing motion, slightly unsteady as if sitting naturally. The hands remain mostly stationary with only small, repetitive gestures—${localMovement}. The lighting ${localLightChange}. The motion remains grounded and natural—no dramatic movements, just the quiet, immersive feeling of someone deeply absorbed in a nostalgic moment.`;
-    } else if (perspective === "third-person") {
-      return `The camera has slow, natural handheld camera drift. The person is seen gently ${localMovement} with the ${localDevice}. The lighting ${localLightChange}. The motion remains atmospheric and grounded—a slow, nostalgic cinematic memory frozen in time.`;
-    } else {
-      return `The camera has extremely slow, cinematic pan or handheld float, revealing the details of the scene. The lighting ${localLightChange}. The motion remains quiet and atmospheric, with subtle ambient movement like ${localMovement}—a slow, nostalgic cinematic memory frozen in time.`;
-    }
+    return `The camera has ${localCamera} drift. The scene has subtle ambient movement: ${localMotion}. The lighting ${localGrading}. The video preserves ${localTexture} texture, feeling like a faded family memory.`;
   };
 
   const handleCopyText = (text: string, setCopiedState: (v: boolean) => void) => {
@@ -129,24 +117,12 @@ ${getAssembledVideoPrompt()}
           <span className="text-amber-500 font-mono text-xs tracking-tighter">
             SEQ_00{scene.number}
           </span>
-          <h3 className="text-xl sm:text-2xl font-serif italic text-white tracking-normal leading-tight">
+          <h3 className="text-xl sm:text-2xl font-serif italic text-white tracking-normal leading-tight font-light">
             {scene.title}
           </h3>
-          {scene.perspective === "third-person" && (
-            <span className="inline-flex items-center gap-1 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(139,92,246,0.05)]">
-              <Smartphone className="w-2.5 h-2.5 rotate-90" /> Cinematic (Third-Person)
-            </span>
-          )}
-          {(scene.perspective === "first-person" || !scene.perspective) && (
-            <span className="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(245,158,11,0.05)]">
-              <Tv className="w-2.5 h-2.5" /> POV (First-Person)
-            </span>
-          )}
-          {scene.perspective === "environmental" && (
-            <span className="inline-flex items-center gap-1 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[9px] font-mono uppercase font-semibold px-2 py-0.5 rounded shadow-[0_0_10px_rgba(6,182,212,0.05)]">
-              <Compass className="w-2.5 h-2.5" /> Environmental / Still-Life
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[9px] font-mono uppercase font-semibold px-2.5 py-0.5 rounded shadow-[0_0_10px_rgba(245,158,11,0.05)]">
+            🎞️ {scene.era || "Nostalgic"} • {scene.textureReference ? scene.textureReference.split(' ')[0] : 'Memory'}
+          </span>
         </div>
 
         {/* Action controls */}
@@ -184,34 +160,45 @@ ${getAssembledVideoPrompt()}
         {/* Left Side: Nostalgic Blueprint details */}
         <div className="p-6 border-b lg:border-b-0 lg:border-r border-white/10 pl-8 bg-black/40">
           <h4 className="text-[10px] font-mono uppercase tracking-widest text-amber-500/70 mb-4 flex items-center gap-1.5">
-            <Sparkles className="w-3 h-3" /> Historical Composition Variables
+            <Sparkles className="w-3 h-3" /> Cinematic Memory Composition
           </h4>
 
           {/* Variables Stack */}
           <div className="space-y-4">
             <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
-              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">🎮 Cultural Target Device</span>
-              <p className="text-neutral-300 text-sm font-medium">{localDevice}</p>
+              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">📸 Focal Subject</span>
+              <p className="text-neutral-300 text-sm font-medium">{localSubject}</p>
             </div>
 
             <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
-              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">💡 Ambient Light Source</span>
+              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">💡 Lighting Philosophy</span>
               <p className="text-neutral-300 text-sm font-medium">{localLighting}</p>
             </div>
 
             <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
-              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">📦 Background Scattered Relics</span>
-              <p className="text-neutral-300 text-sm font-medium">{localItems}</p>
+              <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">📦 Setting & Relics</span>
+              <p className="text-neutral-300 text-sm font-medium">{localSettings}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
-                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">🖐️ Breathing Micro-Action</span>
-                <p className="text-neutral-300 text-xs font-light">{localMovement}</p>
+                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">🖐️ Ambient Motion</span>
+                <p className="text-neutral-300 text-xs font-light">{localMotion}</p>
               </div>
               <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
-                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">⚡ Dynamic Aura Shift</span>
-                <p className="text-neutral-300 text-xs font-light">{localLightChange}</p>
+                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">⚡ Color Grading & Mood</span>
+                <p className="text-neutral-300 text-xs font-light">{localGrading}</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
+                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">🎥 Camera Language</span>
+                <p className="text-neutral-300 text-xs font-light">{localCamera}</p>
+              </div>
+              <div className="p-3 bg-neutral-900/40 rounded border border-white/5">
+                <span className="text-[9px] font-mono text-neutral-500 block uppercase tracking-widest mb-1">🎞️ Film Texture</span>
+                <p className="text-neutral-300 text-xs font-light">{localTexture}</p>
               </div>
             </div>
           </div>
@@ -227,14 +214,16 @@ ${getAssembledVideoPrompt()}
                 className="mt-5 pt-5 border-t border-white/5 space-y-4"
               >
                 <div className="flex items-center justify-between">
-                  <h5 className="text-[10px] font-mono font-bold text-amber-500/80 uppercase">🔬 Prompt Refiner Sandbox</h5>
+                  <h5 className="text-[10px] font-mono font-bold text-amber-500/80 uppercase">🔬 Memory Refiner Sandbox</h5>
                   <button 
                     onClick={() => {
-                      setLocalDevice(scene.targetDevice);
-                      setLocalLighting(scene.lightingSource);
-                      setLocalItems(scene.backgroundItems);
-                      setLocalMovement(scene.microMovement);
-                      setLocalLightChange(scene.lightingChange);
+                      setLocalSubject(scene.focalSubject);
+                      setLocalLighting(scene.lightingStyle);
+                      setLocalSettings(scene.settingDetails);
+                      setLocalMotion(scene.ambientMotion);
+                      setLocalGrading(scene.colorGrading);
+                      setLocalCamera(scene.cameraLanguage);
+                      setLocalTexture(scene.textureReference);
                     }}
                     className="text-[10px] font-mono text-neutral-400 hover:text-white flex items-center gap-1"
                   >
@@ -244,16 +233,16 @@ ${getAssembledVideoPrompt()}
 
                 <div className="space-y-3 text-xs">
                   <div>
-                    <label className="text-neutral-400 block mb-1">Target Object / Device:</label>
+                    <label className="text-neutral-400 block mb-1">Focal Subject & Actions:</label>
                     <input
                       type="text"
-                      value={localDevice}
-                      onChange={(e) => setLocalDevice(e.target.value)}
+                      value={localSubject}
+                      onChange={(e) => setLocalSubject(e.target.value)}
                       className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white focus:outline-none focus:border-amber-500/50"
                     />
                   </div>
                   <div>
-                    <label className="text-neutral-400 block mb-1">Lighting Source & Tone:</label>
+                    <label className="text-neutral-400 block mb-1">Lighting Philosophy:</label>
                     <input
                       type="text"
                       value={localLighting}
@@ -262,30 +251,50 @@ ${getAssembledVideoPrompt()}
                     />
                   </div>
                   <div>
-                    <label className="text-neutral-400 block mb-1">Background Relics:</label>
+                    <label className="text-neutral-400 block mb-1">Setting Details:</label>
                     <input
                       type="text"
-                      value={localItems}
-                      onChange={(e) => setLocalItems(e.target.value)}
+                      value={localSettings}
+                      onChange={(e) => setLocalSettings(e.target.value)}
                       className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white focus:outline-none focus:border-amber-500/50"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="text-neutral-400 block mb-1">Micro Gesture:</label>
+                      <label className="text-neutral-400 block mb-1">Ambient Motion:</label>
                       <input
                         type="text"
-                        value={localMovement}
-                        onChange={(e) => setLocalMovement(e.target.value)}
+                        value={localMotion}
+                        onChange={(e) => setLocalMotion(e.target.value)}
                         className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white text-[11px] focus:outline-none focus:border-amber-500/50"
                       />
                     </div>
                     <div>
-                      <label className="text-neutral-400 block mb-1">Lighting Change:</label>
+                      <label className="text-neutral-400 block mb-1">Color Grading:</label>
                       <input
                         type="text"
-                        value={localLightChange}
-                        onChange={(e) => setLocalLightChange(e.target.value)}
+                        value={localGrading}
+                        onChange={(e) => setLocalGrading(e.target.value)}
+                        className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white text-[11px] focus:outline-none focus:border-amber-500/50"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <label className="text-neutral-400 block mb-1">Camera Language:</label>
+                      <input
+                        type="text"
+                        value={localCamera}
+                        onChange={(e) => setLocalCamera(e.target.value)}
+                        className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white text-[11px] focus:outline-none focus:border-amber-500/50"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-neutral-400 block mb-1">Film Texture:</label>
+                      <input
+                        type="text"
+                        value={localTexture}
+                        onChange={(e) => setLocalTexture(e.target.value)}
                         className="w-full bg-[#0a0a0a] border border-white/10 rounded p-2 text-white text-[11px] focus:outline-none focus:border-amber-500/50"
                       />
                     </div>
